@@ -453,17 +453,26 @@
     /***************************************************
      * FINAL VISUAL CHECK
      ***************************************************/
-    function checkShape(el) {
-      const correct = el.getAttribute("data-correct");
-      const visualResult = document.getElementById("visual-result");
-      if (correct === "true") {
-        visualResult.textContent = "Access Granted.";
-        visualResult.style.color = "green";
-        revealPassword();
-      } else {
+function checkShape(el) {
+    const correct = el.getAttribute("data-correct");
+    const visualResult = document.getElementById("visual-result");
+
+    // Alternative verification logic using a simple secret code
+    if (correct === "true") {
+        const userInput = prompt("Enter the final secret code (hint: 42):");
+        if (userInput === "42") {
+            visualResult.textContent = "Access Granted.";
+            visualResult.style.color = "green";
+            revealPassword();
+        } else {
+            visualResult.textContent = "Incorrect code. Try again.";
+            visualResult.style.color = "red";
+        }
+    } else {
         window.location.href = "failure.html";
-      }
     }
+}
+
 
     function revealPassword() {
       // Decode the base64-encoded password (original: 125152113126)
