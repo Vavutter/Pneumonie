@@ -284,20 +284,19 @@
     /***************************************************
      * GLOBAL CONSTANTS & VARIABLES
      ***************************************************/
-    // The *actual* wait time in seconds before letting them move on (hidden countdown)
+
     const REAL_WAIT_TIME = 300;
 
-    // We'll keep track of how many people are ahead in the queue (fake), and an "estimated time."
-    let peopleInQueue = 0;         // will be set randomly below
-    let estimatedTime = 0;         // (in minutes) also random
+   
+    let peopleInQueue = 0;        
+    let estimatedTime = 0;     
 
-    // We'll do random fluctuations every few seconds
+ 
     let queueTimerInterval = null;
     let realWaitTimerInterval = null;
     let realWaitRemaining = REAL_WAIT_TIME;
 
-    // Puzzle data (8 puzzles). Some are "video" type, some are "text" type
-    // Adjust the questions and correct answers as desired.
+
     const puzzles = [
       { type: "text", question: "What is 2 + 2?", answer: "4" },
       { type: "text", question: "Spell 'confidential' backward.", answer: "laitnedifnoc" },
@@ -309,39 +308,36 @@
       { type: "video", question: "Watch this mandatory video for 10 seconds before submitting.", answer: "dummy2" }
     ];
 
-    // Shuffle puzzle order
+ 
     let puzzleOrder = shuffle([...Array(puzzles.length).keys()]);
     let currentPuzzleIndex = 0;
 
-    // For the "video" puzzle: track how many seconds they've watched
+
     let videoWatchTime = 0;
     let videoInterval = null;
 
-    // Encoded ZIP password (original is "125152113126" -> base64: "MTI1MTUyMTEzMTI2")
+
     const encodedPassword = "MTI1MTUyMTEzMTI2";
 
     /***************************************************
      * PAGE LOAD
      ***************************************************/
     window.onload = function() {
-      // Initialize random queue values
-      peopleInQueue = getRandomInt(20, 50);     // e.g. 20-50 people
-      estimatedTime = getRandomInt(3, 15);      // 3-15 minutes
+      peopleInQueue = getRandomInt(20, 50);    
+      estimatedTime = getRandomInt(3, 15);   
       updateQueueInfo();
 
-      // Start the queue update timer (random fluctuations)
+ 
       queueTimerInterval = setInterval(fluctuateQueue, 4000); // every 4s
 
-      // Start the real hidden countdown
       realWaitTimerInterval = setInterval(() => {
         if (realWaitRemaining <= 0) {
           clearInterval(realWaitTimerInterval);
           clearInterval(queueTimerInterval);
-          // Force queue display to 0
           peopleInQueue = 0;
           estimatedTime = 0;
           updateQueueInfo();
-          // Show puzzle container
+    
           document.getElementById("puzzle-container").style.display = "block";
           document.getElementById("queue-wait").style.display = "none";
           showPuzzle(0);
@@ -354,18 +350,15 @@
     /***************************************************
      * QUEUE LOGIC
      ***************************************************/
-    // Randomly change peopleInQueue and estimatedTime
     function fluctuateQueue() {
-      // random +/- to peopleInQueue
-      let change = getRandomInt(-2, 3);  // can go down by 2, up by 2
+      let change = getRandomInt(-2, 3); 
       peopleInQueue += change;
       if (peopleInQueue < 0) peopleInQueue = 0;
       if (peopleInQueue > 60) peopleInQueue = 60;
 
-      // random +/- to estimatedTime
-      let timeChange = getRandomInt(-1, 1); // can go down 1 min or up 1 min or 0
+      let timeChange = getRandomInt(-1, 1); 
       estimatedTime += timeChange;
-      if (estimatedTime < 1) estimatedTime = getRandomInt(1,3); // never show 0 too soon
+      if (estimatedTime < 1) estimatedTime = getRandomInt(1,3); 
       if (estimatedTime > 30) estimatedTime = 30;
 
       updateQueueInfo();
@@ -380,7 +373,6 @@
     /***************************************************
      * SECURITY STEPS (PUZZLES)
      ***************************************************/
-    // Shuffle array
     function shuffle(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -389,36 +381,29 @@
       return arr;
     }
 
-    // Show puzzle in the shuffled order
     function showPuzzle(index) {
-      // Hide all steps first
       const steps = document.querySelectorAll('.step');
       steps.forEach(s => s.style.display = 'none');
 
       if (index >= puzzles.length) {
-        // If done with all steps, proceed to final visual check
         document.getElementById("puzzle-container").style.display = "none";
         document.getElementById("final-visual-check").style.display = "block";
         return;
       }
 
-      // Show the correct step
       const stepElem = document.getElementById(`step${index}`);
       stepElem.style.display = "block";
 
-      // Fill question text
       const puzzleId = puzzleOrder[index];
       const puzzleObj = puzzles[puzzleId];
       document.getElementById(`question${index}`).textContent = puzzleObj.question;
 
-      // Show/hide video or input
       const videoDiv = document.getElementById(`video-${index}`);
       const inputField = document.getElementById(`answer${index}`);
       videoDiv.style.display = "none";
       inputField.style.display = "none";
 
       if (puzzleObj.type === "video") {
-        // Start counting watch time
         videoDiv.style.display = "block";
         videoWatchTime = 0;
         clearInterval(videoInterval);
@@ -426,12 +411,10 @@
           videoWatchTime++;
         }, 1000);
       } else {
-        // text puzzle
         inputField.style.display = "inline-block";
       }
     }
 
-    // Submit answer
     function submitAnswer(index) {
       const puzzleId = puzzleOrder[index];
       const puzzleObj = puzzles[puzzleId];
