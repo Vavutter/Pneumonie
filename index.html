@@ -251,25 +251,26 @@
   </div>
 
   <!-- 3) Final Visual Check -->
-  <div id="final-visual-check">
-    <h2>Final Security Check</h2>
-    <p>Pick the correct shape below to finalize your request.</p>
-    <div id="shapes">
-      <div class="image-option" data-correct="false" onclick="checkShape(this)">
-        <img src="https://via.placeholder.com/100/FF0000/FFFFFF?text=Triangle" alt="Triangle">
-      </div>
-      <div class="image-option" data-correct="false" onclick="checkShape(this)">
-        <img src="https://via.placeholder.com/100/00FF00/000000?text=Square" alt="Square">
-      </div>
-      <div class="image-option" data-correct="true" onclick="checkShape(this)">
-        <img src="https://via.placeholder.com/100/0000FF/FFFFFF?text=Circle" alt="Circle">
-      </div>
-      <div class="image-option" data-correct="false" onclick="checkShape(this)">
-        <img src="https://via.placeholder.com/100/FFFF00/000000?text=Star" alt="Star">
-      </div>
+<div id="final-visual-check">
+  <h2>Final Security Check</h2>
+  <p>Select the circle below to finalize your request.</p>
+  <div id="shapes">
+    <div class="image-option" onclick="checkShape(this)">
+      <img src="https://via.placeholder.com/100/FF0000/FFFFFF?text=Triangle" alt="Triangle">
     </div>
-    <div id="visual-result"></div>
+    <div class="image-option" onclick="checkShape(this)">
+      <img src="https://via.placeholder.com/100/00FF00/000000?text=Square" alt="Square">
+    </div>
+    <div class="image-option" data-correct="true" onclick="checkShape(this)">
+      <img src="https://via.placeholder.com/100/0000FF/FFFFFF?text=Circle" alt="Circle">
+    </div>
+    <div class="image-option" onclick="checkShape(this)">
+      <img src="https://via.placeholder.com/100/FFFF00/000000?text=Star" alt="Star">
+    </div>
   </div>
+  <div id="visual-result"></div>
+</div>
+
 
   <!-- 4) Reveal ZIP Password -->
   <div id="final-password"></div>
@@ -454,24 +455,19 @@
      * FINAL VISUAL CHECK
      ***************************************************/
 function checkShape(el) {
-    const correct = el.getAttribute("data-correct");
+    const isCorrect = el.getAttribute("data-correct") === "true";
     const visualResult = document.getElementById("visual-result");
 
-    // Alternative verification logic using a simple secret code
-    if (correct === "true") {
-        const userInput = prompt("Enter the final secret code (hint: 42):");
-        if (userInput === "42") {
-            visualResult.textContent = "Access Granted.";
-            visualResult.style.color = "green";
-            revealPassword();
-        } else {
-            visualResult.textContent = "Incorrect code. Try again.";
-            visualResult.style.color = "red";
-        }
+    if (isCorrect) {
+        visualResult.textContent = "Access Granted.";
+        visualResult.style.color = "green";
+        revealPassword();
     } else {
-        window.location.href = "failure.html";
+        visualResult.textContent = "Incorrect selection. Please try again.";
+        visualResult.style.color = "red";
     }
 }
+
 
 
     function revealPassword() {
