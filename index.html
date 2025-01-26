@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Doctor’s Note Access</title>
+  <meta charset="UTF-8">
+  <title>Extremely Secure Doctor’s Note Access</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,6 +13,8 @@
 
     #wait-message,
     #puzzle-container,
+    #visual-puzzle,
+    #final-password,
     #download-section {
       margin-top: 20px;
     }
@@ -40,11 +42,6 @@
       margin-top: 8px;
     }
 
-    #download-section {
-      display: none;
-      margin-top: 30px;
-    }
-
     .button {
       display: inline-block;
       padding: 10px 20px;
@@ -63,40 +60,73 @@
       cursor: not-allowed;
     }
 
-    /* Just for the cat video puzzle embed */
-    #cat-video-iframe {
+    /* Cat video embed */
+    .cat-video-embed {
       width: 100%;
       height: 315px;
       margin-top: 10px;
     }
+
+    /* Final visual puzzle */
+    #visual-puzzle {
+      display: none;
+      margin-top: 20px;
+    }
+    .puzzle-option {
+      display: inline-block;
+      margin: 10px;
+      cursor: pointer;
+    }
+    .puzzle-option img {
+      width: 100px;
+      height: 100px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+    #visual-result {
+      margin-top: 10px;
+      color: red;
+      font-weight: bold;
+    }
+
+    /* Final password & download */
+    #final-password {
+      display: none;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: green;
+      font-weight: bold;
+    }
+    #download-section {
+      display: none;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
+  <h1>Doctor’s Note: Extra-Extra-Annoying Secure Download</h1>
 
-  <h1>Doctor’s Note: Extremely Secure Download</h1>
+  <!-- 1) Wait Message -->
   <div id="wait-message">
     <p>Please wait <strong>5 minutes</strong> while we verify your access to this highly confidential file.</p>
     <p id="timer-text"></p>
   </div>
 
+  <!-- 2) Puzzle Container (8 total puzzles, randomized) -->
   <div id="puzzle-container">
-    <!-- Each puzzle is inserted dynamically, but we provide HTML shells for them. -->
-    <!-- We'll have 8 puzzles. They will be randomized in order. -->
-
-    <!-- 8 puzzle divs: each will be one puzzle, revealed in a random sequence. -->
+    <!-- We'll dynamically load puzzle content using JavaScript, but we pre-make the puzzle divs with IDs. -->
     <div class="puzzle" id="puzzle0">
-      <h2>Puzzle 1</h2>
+      <h2>Step 1</h2>
       <div class="puzzle-question" id="question0"></div>
-      <!-- Special handling for cat video puzzle in code. -->
       <div id="cat-video-0" style="display: none;">
         <iframe 
-          id="cat-video-iframe" 
-          src="https://www.youtube.com/embed/J---aiyznGQ?enablejsapi=1" 
+          class="cat-video-embed"
+          src="https://www.youtube.com/embed/J---aiyznGQ?enablejsapi=1"
           frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-        <p>Please watch at least <strong>10 seconds</strong> of this adorable cat video before proceeding.</p>
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+        <p>Please watch at least <strong>10 seconds</strong> of this cat video before clicking submit.</p>
       </div>
       <input type="text" id="answer0" style="display:none;" />
       <button class="button" id="submit0" onclick="submitAnswer(0)">Submit</button>
@@ -104,16 +134,16 @@
     </div>
 
     <div class="puzzle" id="puzzle1">
-      <h2>Puzzle 2</h2>
+      <h2>Step 2</h2>
       <div class="puzzle-question" id="question1"></div>
       <div id="cat-video-1" style="display: none;">
         <iframe 
-          id="cat-video-iframe" 
+          class="cat-video-embed"
           src="https://www.youtube.com/embed/J---aiyznGQ?enablejsapi=1"
           frameborder="0"
-          allowfullscreen
-        ></iframe>
-        <p>Please watch at least <strong>10 seconds</strong> of this adorable cat video before proceeding.</p>
+          allowfullscreen>
+        </iframe>
+        <p>Please watch at least <strong>10 seconds</strong> of this cat video before clicking submit.</p>
       </div>
       <input type="text" id="answer1" style="display:none;" />
       <button class="button" id="submit1" onclick="submitAnswer(1)">Submit</button>
@@ -121,16 +151,16 @@
     </div>
 
     <div class="puzzle" id="puzzle2">
-      <h2>Puzzle 3</h2>
+      <h2>Step 3</h2>
       <div class="puzzle-question" id="question2"></div>
       <div id="cat-video-2" style="display: none;">
         <iframe 
-          id="cat-video-iframe" 
+          class="cat-video-embed"
           src="https://www.youtube.com/embed/J---aiyznGQ?enablejsapi=1"
           frameborder="0"
-          allowfullscreen
-        ></iframe>
-        <p>Please watch at least <strong>10 seconds</strong> of this adorable cat video before proceeding.</p>
+          allowfullscreen>
+        </iframe>
+        <p>Please watch at least <strong>10 seconds</strong> of this cat video before clicking submit.</p>
       </div>
       <input type="text" id="answer2" style="display:none;" />
       <button class="button" id="submit2" onclick="submitAnswer(2)">Submit</button>
@@ -138,16 +168,16 @@
     </div>
 
     <div class="puzzle" id="puzzle3">
-      <h2>Puzzle 4</h2>
+      <h2>Step 4</h2>
       <div class="puzzle-question" id="question3"></div>
       <div id="cat-video-3" style="display: none;">
         <iframe 
-          id="cat-video-iframe"
+          class="cat-video-embed"
           src="https://www.youtube.com/embed/J---aiyznGQ?enablejsapi=1"
           frameborder="0"
-          allowfullscreen
-        ></iframe>
-        <p>Please watch at least <strong>10 seconds</strong> of this adorable cat video before proceeding.</p>
+          allowfullscreen>
+        </iframe>
+        <p>Please watch at least <strong>10 seconds</strong> of this cat video before clicking submit.</p>
       </div>
       <input type="text" id="answer3" style="display:none;" />
       <button class="button" id="submit3" onclick="submitAnswer(3)">Submit</button>
@@ -155,16 +185,16 @@
     </div>
 
     <div class="puzzle" id="puzzle4">
-      <h2>Puzzle 5</h2>
+      <h2>Step 5</h2>
       <div class="puzzle-question" id="question4"></div>
       <div id="cat-video-4" style="display: none;">
         <iframe 
-          id="cat-video-iframe"
+          class="cat-video-embed"
           src="https://www.youtube.com/embed/J---aiyznGQ?enablejsapi=1"
           frameborder="0"
-          allowfullscreen
-        ></iframe>
-        <p>Please watch at least <strong>10 seconds</strong> of this adorable cat video before proceeding.</p>
+          allowfullscreen>
+        </iframe>
+        <p>Please watch at least <strong>10 seconds</strong> of this cat video before clicking submit.</p>
       </div>
       <input type="text" id="answer4" style="display:none;" />
       <button class="button" id="submit4" onclick="submitAnswer(4)">Submit</button>
@@ -172,16 +202,16 @@
     </div>
 
     <div class="puzzle" id="puzzle5">
-      <h2>Puzzle 6</h2>
+      <h2>Step 6</h2>
       <div class="puzzle-question" id="question5"></div>
       <div id="cat-video-5" style="display: none;">
         <iframe 
-          id="cat-video-iframe"
+          class="cat-video-embed"
           src="https://www.youtube.com/embed/J---aiyznGQ?enablejsapi=1"
           frameborder="0"
-          allowfullscreen
-        ></iframe>
-        <p>Please watch at least <strong>10 seconds</strong> of this adorable cat video before proceeding.</p>
+          allowfullscreen>
+        </iframe>
+        <p>Please watch at least <strong>10 seconds</strong> of this cat video before clicking submit.</p>
       </div>
       <input type="text" id="answer5" style="display:none;" />
       <button class="button" id="submit5" onclick="submitAnswer(5)">Submit</button>
@@ -189,16 +219,16 @@
     </div>
 
     <div class="puzzle" id="puzzle6">
-      <h2>Puzzle 7</h2>
+      <h2>Step 7</h2>
       <div class="puzzle-question" id="question6"></div>
       <div id="cat-video-6" style="display: none;">
         <iframe 
-          id="cat-video-iframe"
+          class="cat-video-embed"
           src="https://www.youtube.com/embed/J---aiyznGQ?enablejsapi=1"
           frameborder="0"
-          allowfullscreen
-        ></iframe>
-        <p>Please watch at least <strong>10 seconds</strong> of this adorable cat video before proceeding.</p>
+          allowfullscreen>
+        </iframe>
+        <p>Please watch at least <strong>10 seconds</strong> of this cat video before clicking submit.</p>
       </div>
       <input type="text" id="answer6" style="display:none;" />
       <button class="button" id="submit6" onclick="submitAnswer(6)">Submit</button>
@@ -206,16 +236,16 @@
     </div>
 
     <div class="puzzle" id="puzzle7">
-      <h2>Puzzle 8</h2>
+      <h2>Step 8</h2>
       <div class="puzzle-question" id="question7"></div>
       <div id="cat-video-7" style="display: none;">
         <iframe 
-          id="cat-video-iframe"
+          class="cat-video-embed"
           src="https://www.youtube.com/embed/J---aiyznGQ?enablejsapi=1"
           frameborder="0"
-          allowfullscreen
-        ></iframe>
-        <p>Please watch at least <strong>10 seconds</strong> of this adorable cat video before proceeding.</p>
+          allowfullscreen>
+        </iframe>
+        <p>Please watch at least <strong>10 seconds</strong> of this cat video before clicking submit.</p>
       </div>
       <input type="text" id="answer7" style="display:none;" />
       <button class="button" id="submit7" onclick="submitAnswer(7)">Submit</button>
@@ -223,24 +253,51 @@
     </div>
   </div>
 
-  <!-- Final Download Section -->
+  <!-- 3) Final Visual Puzzle (unlocks the ZIP password) -->
+  <div id="visual-puzzle">
+    <h2>Final Visual Puzzle</h2>
+    <p>Select the correct shape to unlock the ZIP password.</p>
+    <div id="puzzle-options">
+      <!-- Example: 4 images, only 1 is correct. -->
+      <div class="puzzle-option" data-correct="false" onclick="checkVisualPuzzle(this)">
+        <img src="https://via.placeholder.com/100/FF0000/FFFFFF?text=Triangle" alt="Triangle">
+      </div>
+      <div class="puzzle-option" data-correct="false" onclick="checkVisualPuzzle(this)">
+        <img src="https://via.placeholder.com/100/00FF00/000000?text=Square" alt="Square">
+      </div>
+      <div class="puzzle-option" data-correct="true" onclick="checkVisualPuzzle(this)">
+        <img src="https://via.placeholder.com/100/0000FF/FFFFFF?text=Circle" alt="Circle">
+      </div>
+      <div class="puzzle-option" data-correct="false" onclick="checkVisualPuzzle(this)">
+        <img src="https://via.placeholder.com/100/FFFF00/000000?text=Star" alt="Star">
+      </div>
+    </div>
+    <div id="visual-result"></div>
+  </div>
+
+  <!-- 4) Reveal the ZIP Password (encoded) -->
+  <div id="final-password"></div>
+
+  <!-- 5) Final Download Section (for the .zip) -->
   <div id="download-section">
     <h2>Verification Successful</h2>
-    <p>You can now download the compressed doctor's note below:</p>
-    <!-- In reality, the link would point to your real doctors_note.zip on your server -->
-    <a href="Be.zip" download class="button">Download Doctor's Note (ZIP)</a>
+    <p>Use the password above to open the ZIP file, and then you can download here:</p>
+    <a href="doctors_note.zip" download class="button">Download Doctor's Note (ZIP)</a>
   </div>
 
   <script>
-    // Wait time (5 minutes = 300 seconds)
-    let WAIT_TIME = 300;
+    /**************************************************************
+     *  1. GLOBAL SETTINGS
+     **************************************************************/
+    // Wait time in seconds (5 minutes = 300)
+    const WAIT_TIME = 300;
 
-    // We'll store puzzle data in an array of objects.
-    // Some puzzles are "text" type, and one is "catVideo" type
-    // but let's randomly assign 1 puzzle to be a cat video or more if you wish.
-    // In this example, let's say we have 3 cat video puzzles total (which might be more than enough).
-    // We can just define them all as text for demonstration except 3 that are cat videos.
+    // Cat video watch requirement in seconds
+    const CAT_VIDEO_REQUIRED_TIME = 10;
 
+    // Data for 8 puzzles
+    //  - Some are "catVideo" type (they must watch 10s).
+    //  - Others are "text" type with a question/answer
     const puzzleData = [
       {
         type: "text",
@@ -268,9 +325,9 @@
         correctAnswer: "i will not fail again"
       },
       {
-        type: "catVideo", // puzzle #6
-        question: "Watch the cat video for at least 10 seconds before submitting.",
-        correctAnswer: "watched" // We'll treat it specially in code
+        type: "catVideo",
+        question: "Watch the cat video for at least 10 seconds, then submit.",
+        correctAnswer: "video"
       },
       {
         type: "text",
@@ -278,42 +335,39 @@
         correctAnswer: "7"
       },
       {
-        type: "catVideo", // puzzle #8
-        question: "Another cat video puzzle! Watch for 10 seconds, then type 'done'.",
-        correctAnswer: "done"
+        type: "catVideo",
+        question: "Another cat video puzzle! Watch at least 10 seconds.",
+        correctAnswer: "cat"
       }
     ];
 
-    // We will shuffle these puzzle objects so the order changes each time the page loads
-    let puzzleOrder = shuffleArray([...Array(puzzleData.length).keys()]); 
-    // puzzleOrder is an array of indices [0..7] in random order
+    // Shuffle puzzle order so it’s unpredictable
+    let puzzleOrder = shuffleArray([...Array(puzzleData.length).keys()]);
+    let currentPuzzleIndex = 0;     // which puzzle in the random sequence we are on
+    let catVideoTimeTracker = 0;    // tracks how long they've watched cat video
+    let catVideoInterval = null;    // for setInterval
+    let puzzleStartTime = 0;        // track puzzle start time for cat videos, if needed
 
-    // This variable keeps track of which puzzle # in the random sequence we're on
-    let currentPuzzleIndex = 0;
-
-    // For the cat video puzzle, we want them to watch at least X seconds
-    let catVideoWatchTimeRequired = 10; // 10 seconds
-    let catVideoTimeTracker = 0;
-    let catVideoInterval = null;
-
-    // The countdown timer
+    // Countdown timer for the initial wait
     let timer;
     let remainingTime = WAIT_TIME;
 
-    // On load, start the initial wait
+    // Final ZIP password (encoded in some silly obfuscated manner)
+    // Original: "125152113126"
+    // We'll store it as a base64 string of that number:
+    // btoa("125152113126") => "MTI1MTUyMTEzMTI2"
+    const encodedPassword = "MTI1MTUyMTEzMTI2"; 
+
+    /**************************************************************
+     *  2. PAGE LOAD
+     **************************************************************/
     window.addEventListener('load', () => {
       startWaitTimer();
     });
 
-    // Shuffle array function (Fisher-Yates)
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
-
+    /**************************************************************
+     *  3. WAIT TIMER FUNCTIONS
+     **************************************************************/
     function startWaitTimer() {
       const timerText = document.getElementById("timer-text");
       timer = setInterval(() => {
@@ -329,66 +383,79 @@
       }, 1000);
     }
 
-    // Show puzzle in the *shuffled* order
-    // idx is the index in puzzleOrder, not the puzzle ID itself
+    /**************************************************************
+     *  4. PUZZLE LOGIC
+     **************************************************************/
+    // Return a random shuffle of an array (Fisher-Yates)
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Show puzzle in the *shuffled* order.
+    // idx = index in puzzleOrder, not puzzle ID
     function showPuzzle(idx) {
       // Hide all puzzle elements first
       const puzzleElems = document.querySelectorAll('.puzzle');
       puzzleElems.forEach(el => el.style.display = 'none');
 
       if (idx >= puzzleData.length) {
-        // If we've passed the last puzzle, show the download link
+        // If we've passed the last puzzle, move on to the final step (visual puzzle)
         document.getElementById("puzzle-container").style.display = "none";
-        document.getElementById("download-section").style.display = "block";
+        document.getElementById("visual-puzzle").style.display = "block";
         return;
       }
 
-      const puzzleId = puzzleOrder[idx];  // the actual puzzle in puzzleData
       const puzzleElem = document.getElementById(`puzzle${idx}`);
       puzzleElem.style.display = 'block';
 
       // Fill puzzle question text
+      const puzzleId = puzzleOrder[idx];
+      const puzzleObj = puzzleData[puzzleId];
       const questionDiv = document.getElementById(`question${idx}`);
-      questionDiv.textContent = puzzleData[puzzleId].question;
+      questionDiv.textContent = puzzleObj.question;
 
-      // If this puzzle is type catVideo, show the cat video
-      // Otherwise show the text input
-      if (puzzleData[puzzleId].type === "catVideo") {
-        document.getElementById(`cat-video-${idx}`).style.display = 'block';
-        document.getElementById(`answer${idx}`).style.display = 'none';
+      // If catVideo puzzle, show the video & start tracking
+      // else, show the text input
+      const catVideoDiv = document.getElementById(`cat-video-${idx}`);
+      const answerInput = document.getElementById(`answer${idx}`);
+      catVideoDiv.style.display = 'none';
+      answerInput.style.display = 'none';
 
-        // Start tracking watch time
+      if (puzzleObj.type === "catVideo") {
+        catVideoDiv.style.display = 'block';
+        // Start counting watch time
         catVideoTimeTracker = 0;
-        if (catVideoInterval) {
-          clearInterval(catVideoInterval);
-        }
-        // Increase watch count every second
+        clearInterval(catVideoInterval);
         catVideoInterval = setInterval(() => {
           catVideoTimeTracker++;
         }, 1000);
-
       } else {
-        // text puzzle
-        document.getElementById(`cat-video-${idx}`).style.display = 'none';
-        document.getElementById(`answer${idx}`).style.display = 'inline-block';
+        answerInput.style.display = 'inline-block';
       }
     }
 
+    // When user clicks "Submit" on a puzzle
     function submitAnswer(idx) {
       const puzzleId = puzzleOrder[idx];
-      const resultSpan = document.getElementById(`result${idx}`);
       const puzzleObj = puzzleData[puzzleId];
+      const resultSpan = document.getElementById(`result${idx}`);
+
+      // Clear result text each time
+      resultSpan.textContent = "";
 
       if (puzzleObj.type === "catVideo") {
-        // check watch time
-        if (catVideoTimeTracker >= catVideoWatchTimeRequired) {
-          // they “passed” by watching
+        // must watch at least 10s
+        if (catVideoTimeTracker >= CAT_VIDEO_REQUIRED_TIME) {
           clearInterval(catVideoInterval);
+          // We'll just treat that as correct
           resultSpan.textContent = "Success! You've watched enough cat video.";
           resultSpan.style.color = "green";
           goToNextPuzzle();
         } else {
-          // fail
           redirectToFailure();
         }
       } else {
@@ -400,20 +467,61 @@
           resultSpan.style.color = "green";
           goToNextPuzzle();
         } else {
-          // fail
           redirectToFailure();
         }
       }
     }
 
+    // Move to next puzzle
     function goToNextPuzzle() {
       currentPuzzleIndex++;
       showPuzzle(currentPuzzleIndex);
     }
 
+    // Immediately redirect to a "failure" page
     function redirectToFailure() {
-      // immediate redirect to a "failure" page
       window.location.href = "failure.html";
+    }
+
+    /**************************************************************
+     *  5. FINAL VISUAL PUZZLE
+     **************************************************************/
+    // This puzzle is shown after the 8 main puzzles are done
+    function checkVisualPuzzle(elem) {
+      const correct = elem.getAttribute("data-correct");
+      const resultDiv = document.getElementById("visual-result");
+      if (correct === "true") {
+        // success => reveal final password, and show the download link
+        resultDiv.textContent = "Correct shape! Here’s your password...";
+        resultDiv.style.color = "green";
+        // show password
+        revealPassword();
+      } else {
+        // fail => immediate redirect
+        redirectToFailure();
+      }
+    }
+
+    // We decode the base64-encoded password
+    function revealPassword() {
+      const finalPassDiv = document.getElementById("final-password");
+      finalPassDiv.style.display = "block";
+      // “Decode” the password (originally "125152113126") from base64:
+      // atob("MTI1MTUyMTEzMTI2") => "125152113126"
+      const decoded = decodeThePass(encodedPassword);
+      finalPassDiv.textContent = "ZIP Password: " + decoded;
+
+      // Show download link
+      document.getElementById("download-section").style.display = "block";
+    }
+
+    // A tiny obfuscation function
+    function decodeThePass(str) {
+      // This is basically just atob, but let’s rename and complicate it a bit:
+      let intermediate = window.atob(str);
+      // Could add some silly extra transformations if you want
+      // e.g. reversing, adding dummy chars, etc. For now, we keep it simple:
+      return intermediate;
     }
   </script>
 </body>
